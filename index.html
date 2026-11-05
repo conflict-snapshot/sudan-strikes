@@ -8,18 +8,18 @@
 <meta property="og:title" content="Sudan: Strikes on critical infrastructure, markets and aid/commercial convoys">
 <meta property="og:description" content="Interactive map and analysis of reported strikes on Sudan's critical infrastructure, markets and aid and commercial convoys, 1 January – 5 November 2026.">
 <meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
 :root {
-  --font-sans: "Public Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-sans: Verdana, Geneva, "DejaVu Sans", Tahoma, sans-serif;
+  --font-serif: Verdana, Geneva, "DejaVu Sans", Tahoma, sans-serif;
   --color-bg: #f5f6f4; --color-panel: #ffffff; --color-fg: #17202a; --color-fg-muted: #5b6672; --color-border-line: #dde1e3;
   --color-ok: #2f7d4f; --color-warn: #a86b00; --color-bad: #b3261e;
   --cds-radius: 8px; --cds-pad-xs: 4px; --cds-pad-sm: 8px; --cds-pad-md: 12px; --cds-pad-lg: 18px; --cds-pad-xl: 28px;
   --cds-gap-xs: 4px; --cds-gap-sm: 8px; --cds-gap-md: 14px; --cds-gap-lg: 22px; --cds-gap-xl: 32px;
-  --cds-font-size-caption: 12.5px; --cds-font-size-body: 15px; --cds-font-size-heading: 17px; --cds-font-size-title: 26px; --cds-font-weight-medium: 600;
+  --cds-font-size-caption: 12px; --cds-font-size-body: 15px; --cds-font-size-heading: 17px; --cds-font-size-title: 26px; --cds-font-weight-medium: 600;
   --cds-dur-slow: 480ms; --cds-ease-out: cubic-bezier(.2,.7,.2,1);
   --cds-chart-axis: #b9c0c6; --cds-chart-grid: #eceff1; --cds-chart-muted: #9aa3ab; --cds-chart-reference: #7c858d; --cds-chart-status-critical: #b3261e;
   --cds-surface-popover: #ffffff; --cds-border: #d3d8dc; --cds-shadow-popover: 0 6px 24px rgba(15,25,35,.14); --cds-text-secondary: #5b6672;
@@ -87,6 +87,8 @@ html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); fon
   --sx-water: color-mix(in srgb, #3f88c5 75%, var(--color-bg));
   --sx-heat: color-mix(in srgb, #c0503f 60%, var(--color-panel));
   --sx-pt-stroke: var(--color-bg);
+  --font-sans: Verdana, Geneva, "DejaVu Sans", Tahoma, sans-serif;
+  --font-serif: Verdana, Geneva, "DejaVu Sans", Tahoma, sans-serif;
   font-family: var(--font-sans); color: var(--color-fg); display: grid; gap: var(--cds-gap-lg); max-width: 1440px; margin-inline: auto; }
 .sx b { font-weight: 600; }
 .sx [hidden] { display: none !important; }
@@ -125,16 +127,18 @@ html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); fon
 .sx-tl { min-height: 260px; }
 .sx-bars { min-height: 300px; }
 .sx-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
-.sx-tip { position: absolute; pointer-events: none; z-index: 4; max-width: min(320px, 85%); background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); line-height: 1.4; opacity: 0; transition: opacity 120ms; }
+.sx-tip { position: absolute; pointer-events: none; z-index: 4; max-width: min(380px, 88%); background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); line-height: 1.4; opacity: 0; transition: opacity 120ms; }
 .sx-tip .t1 { color: var(--cds-text-secondary); }
 .sx-tip .t2 { font-weight: 600; margin-block: 2px; }
 .sx-tip .t3 { color: var(--color-fg-muted); }
+.sx-tip .t4 { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--cds-border); line-height: 1.45; }
 .sx-axis text { fill: var(--color-fg-muted); font-size: 11px; font-family: var(--font-sans); }
 .sx-axis path, .sx-axis line { stroke: var(--cds-chart-axis); }
 .sx-gridline line { stroke: var(--cds-chart-grid); }
 .sx-gridline path { display: none; }
 .sx-lbl { fill: var(--color-fg-muted); font-size: 11px; font-family: var(--font-sans); }
 .sx-lbl-strong { fill: var(--color-fg); font-size: 11px; font-weight: 600; font-family: var(--font-sans); }
+.sx-map .town { pointer-events: none; }
 .sx-town { fill: var(--color-fg); font-family: var(--font-sans); paint-order: stroke; stroke: var(--sx-land); stroke-linejoin: round; pointer-events: none; }
 .sx-town-major { font-weight: 700; }
 .sx-statelbl { fill: var(--color-fg-muted); font-family: var(--font-sans); letter-spacing: .1em; font-weight: 600; paint-order: stroke; stroke: var(--sx-land); stroke-linejoin: round; pointer-events: none; opacity: .85; }
@@ -168,8 +172,10 @@ html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); fon
 .sx-pill { font-size: var(--cds-font-size-caption); border-radius: 999px; padding: 0.15rem 0.6rem; border: 1px solid var(--color-border-line); display: inline-flex; align-items: center; gap: 0.35rem; }
 .sx-deckbar { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; }
 .sx-deckcount { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
-.sx-tablebox { max-height: 460px; overflow: auto; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); }
-.sx-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); }
+.sx-tablebox { max-height: 620px; overflow: auto; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); }
+.sx-table { width: 100%; min-width: 1100px; border-collapse: collapse; font-size: var(--cds-font-size-caption); }
+.sx-table .sx-col-detail { min-width: 340px; line-height: 1.45; }
+.sx-table td a { color: var(--color-fg); white-space: nowrap; }
 .sx-table th { position: sticky; top: 0; background: var(--color-panel); text-align: left; font-weight: 600; border-bottom: 1px solid var(--color-border-line); padding: 0; z-index: 1; }
 .sx-th { all: unset; display: block; padding: 0.5rem 0.6rem; cursor: pointer; white-space: nowrap; }
 .sx-th[aria-sort="ascending"]::after { content: " ↑"; }
@@ -238,7 +244,7 @@ html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); fon
   <div class="sx-grid">
     <article class="sx-card" id="map">
       <h2>Where the strikes landed</h2>
-      <p class="sx-note">Each mark is one incident: its shape shows the target (circle: critical infrastructure; square: market; triangle: aid or commercial convoy), its colour the alleged perpetrator and its size the reported deaths. States shade darker with more incidents. Scroll or use the buttons to zoom, drag to pan; hover for details and click to open the incident card. Positions are approximate, to town level.</p>
+      <p class="sx-note">Each mark is one incident; hover over it to read what happened. Its shape shows the target (circle: critical infrastructure; square: market; triangle: aid or commercial convoy), its colour the alleged perpetrator and its size the reported deaths. States shade darker with more incidents. Scroll or use the buttons to zoom, drag to pan; hover for details and click to open the incident card. Positions are approximate, to town level.</p>
       <div class="sx-toolbar">
         <button type="button" class="sx-btn sx-play">▶ Play the year</button>
         <button type="button" class="sx-btn sx-stop" hidden>■ Stop</button>
@@ -291,7 +297,7 @@ html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); fon
 
     <article class="sx-card" id="log">
       <h2>Incident log</h2>
-      <p class="sx-note">All incidents in the current filters. Click a header to sort, a row to open its flashcard.</p>
+      <p class="sx-note">All incidents in the current filters, with an account of each and a link to its source. Scroll sideways on small screens. Click a header to sort, a row to open its flashcard.</p>
       <input id="sx-search" class="sx-search" type="search" placeholder="Search town, facility, perpetrator…" aria-label="Search incidents">
       <div class="sx-tablebox">
         <table class="sx-table" data-source="incidents" data-row-key="id">
@@ -304,6 +310,8 @@ html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); fon
             <th data-field="facility" class="sx-hide-narrow"><button type="button" class="sx-th" data-sort="facility">Facility</button></th>
             <th data-field="group"><button type="button" class="sx-th" data-sort="group">Alleged perpetrator</button></th>
             <th data-field="killed" class="sx-num"><button type="button" class="sx-th" data-sort="killed">Killed</button></th>
+            <th data-field="narrative" class="sx-col-detail"><button type="button" class="sx-th" data-sort="narrative">What happened</button></th>
+            <th data-field="source"><button type="button" class="sx-th" data-sort="source">Source</button></th>
           </tr></thead>
           <tbody data-draw="rows"></tbody>
         </table>
@@ -522,7 +530,7 @@ dash.calc('kpis', {
       const ctl = g.ctylab.selectAll('text').data(COUNTRIES, (d) => d[0]).join('text').attr('class', 'sx-country').attr('text-anchor', 'middle').text((d) => d[0]);
       const tw = g.towns.selectAll('g.town').data(TOWNS, (d) => d[0]).join((en) => { const t = en.append('g').attr('class', 'town'); t.append('rect'); t.append('text'); return t; });
 
-      const r = (d) => 4 + Math.sqrt(SX.k(d)) * (narrow ? 1.1 : 1.6);
+      const r = (d) => 3.5 + Math.sqrt(SX.k(d)) * (narrow ? 0.75 : 1.05);
       const symbolPath = (d, kk) => d3.symbol(SHAPE[d.class] || d3.symbolCircle, Math.PI * Math.pow(r(d) / kk, 2) * (d.class === 'Aid & commercial convoys' ? 1.5 : 1))();
       const order = rows.slice().sort((a, b) => SX.k(b) - SX.k(a));
       const dates = rows.map((d) => d.date).sort();
@@ -535,7 +543,7 @@ dash.calc('kpis', {
         .attr('fill', (d) => SX.color(d.group)).attr('stroke', 'var(--sx-pt-stroke)').attr('stroke-width', 1.1).attr('vector-effect', 'non-scaling-stroke')
         .on('mousemove', function (event, d) {
           d3.select(this).attr('stroke', 'var(--sx-ink)').attr('stroke-width', 2);
-          SX.showTip(el, g.tip, event, [['t1', `${SX.fmtDate(d.date)} · ${d.class}`], ['t2', d.facility], ['t3', `${d.location}, ${d.state}`], ['t3', `${SX.groupLabel[d.group]} (alleged) · ${d.killed == null ? 'deaths not reported' : d3.format(',')(d.killed) + ' killed'}${d.injured ? ', ' + d.injured + ' injured' : ''}`], ['t3', d.category]]);
+          SX.showTip(el, g.tip, event, [['t1', `${SX.fmtDate(d.date)} · ${d.class}`], ['t2', d.facility], ['t3', `${d.location}, ${d.state}`], ['t3', `${SX.groupLabel[d.group]} (alleged) · ${d.killed == null ? 'deaths not reported' : d3.format(',')(d.killed) + ' killed'}${d.injured ? ', ' + d.injured + ' injured' : ''}`], ['t3', d.category], ['t4', d.narrative]]);
         })
         .on('mouseleave', function () { d3.select(this).attr('stroke', 'var(--sx-pt-stroke)').attr('stroke-width', 1.1); SX.hideTip(g.tip); })
         .on('click', (event, d) => SX.openCard(d.id));
@@ -545,12 +553,12 @@ dash.calc('kpis', {
         const kk = g.k || 1;
         pts.attr('d', (d) => symbolPath(d, kk));
         pul.attr('r', (d) => r(d) / kk).attr('stroke-width', 1.5 / kk);
-        stl.attr('x', (d) => P(d.cx, d.cy)[0]).attr('y', (d) => P(d.cx, d.cy)[1]).style('font-size', `${(narrow ? 8 : 9.5) / kk}px`).style('stroke-width', `${3 / kk}px`).style('display', narrow && kk < 1.5 ? 'none' : null);
-        ctl.attr('x', (d) => P(d[1], d[2])[0]).attr('y', (d) => P(d[1], d[2])[1]).style('font-size', `${(narrow ? 8.5 : 10.5) / kk}px`).style('stroke-width', `${3 / kk}px`);
+        stl.attr('x', (d) => P(d.cx, d.cy)[0]).attr('y', (d) => P(d.cx, d.cy)[1]).style('font-size', `${11 / kk}px`).style('stroke-width', `${3 / kk}px`).style('display', narrow && kk < 1.5 ? 'none' : null);
+        ctl.attr('x', (d) => P(d[1], d[2])[0]).attr('y', (d) => P(d[1], d[2])[1]).style('font-size', `${11 / kk}px`).style('stroke-width', `${3 / kk}px`);
         const minRank = narrow ? (kk < 2 ? 1 : kk < 4 ? 2 : 3) : (kk < 1.6 ? 2 : 3);
         tw.attr('transform', (d) => `translate(${P(d[1], d[2]).join(',')})`).style('display', (d) => d[3] <= minRank ? null : 'none');
         tw.select('rect').attr('x', -2.2 / kk).attr('y', -2.2 / kk).attr('width', 4.4 / kk).attr('height', 4.4 / kk).attr('fill', 'var(--sx-ink)').attr('stroke', 'var(--sx-pt-stroke)').attr('stroke-width', 0.8 / kk);
-        tw.select('text').attr('class', (d) => d[3] === 1 ? 'sx-town sx-town-major' : 'sx-town').attr('x', 5 / kk).attr('dy', '0.32em').style('font-size', (d) => `${(d[3] === 1 ? (narrow ? 10 : 11.5) : (narrow ? 9 : 10)) / kk}px`).style('stroke-width', `${3 / kk}px`).text((d) => d[0]);
+        tw.select('text').attr('class', (d) => d[3] === 1 ? 'sx-town sx-town-major' : 'sx-town').attr('x', 5 / kk).attr('dy', '0.32em').style('font-size', (d) => `${(d[3] === 1 ? 12 : 11) / kk}px`).style('stroke-width', `${3 / kk}px`).text((d) => d[0]);
       };
       g.rescale();
     },
@@ -720,6 +728,8 @@ dash.calc('kpis', {
       const tr = document.createElement('tr');
       const cells = [[String(r.id)], [r.date], [r.state], [r.location, 'sx-hide-narrow'], [r.class], [r.facility, 'sx-hide-narrow'], [r.group], [r.killed == null ? '' : String(r.killed), 'sx-num']];
       cells.forEach(([t, c]) => { const td = document.createElement('td'); if (c) td.className = c; td.textContent = t; tr.append(td); });
+      const nd = document.createElement('td'); nd.className = 'sx-col-detail'; nd.textContent = r.narrative; tr.append(nd);
+      const sd = document.createElement('td'); const a = document.createElement('a'); a.href = r.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = r.source; a.addEventListener('click', (e) => e.stopPropagation()); sd.append(a); tr.append(sd);
       tr.addEventListener('click', () => SX.openCard(r.id));
       tb.append(tr);
     });
