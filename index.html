@@ -530,7 +530,7 @@ dash.calc('kpis', {
       const ctl = g.ctylab.selectAll('text').data(COUNTRIES, (d) => d[0]).join('text').attr('class', 'sx-country').attr('text-anchor', 'middle').text((d) => d[0]);
       const tw = g.towns.selectAll('g.town').data(TOWNS, (d) => d[0]).join((en) => { const t = en.append('g').attr('class', 'town'); t.append('rect'); t.append('text'); return t; });
 
-      const r = (d) => 3.5 + Math.sqrt(SX.k(d)) * (narrow ? 0.75 : 1.05);
+      const r = (d) => (narrow ? 5 : 6.5) + Math.sqrt(SX.k(d)) * (narrow ? 0.9 : 1.3);
       const symbolPath = (d, kk) => d3.symbol(SHAPE[d.class] || d3.symbolCircle, Math.PI * Math.pow(r(d) / kk, 2) * (d.class === 'Aid & commercial convoys' ? 1.5 : 1))();
       const order = rows.slice().sort((a, b) => SX.k(b) - SX.k(a));
       const dates = rows.map((d) => d.date).sort();
